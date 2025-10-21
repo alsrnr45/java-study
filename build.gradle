@@ -1,0 +1,52 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.3' // Spring Boot 3.2.x 버전
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Spring Boot Web Starter - 웹 애플리케이션 개발
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Spring Boot JPA Starter - JPA/Hibernate 연동
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // Spring Boot Security Starter - 보안 설정
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // Spring Boot Validation Starter - Bean Validation 지원
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // 데이터베이스 드라이버 예시 (H2 인메모리)
+    runtimeOnly 'com.h2database:h2'
+
+    // 로깅 (Spring Boot 내부적으로 logback 포함)
+
+    // 테스트 관련 (JUnit 5 및 Spring Test)
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // Lombok (선택 사항, 빌더, Getter/Setter 간결화)
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+}
+
+test {
+    useJUnitPlatform()
+}
