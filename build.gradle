@@ -45,6 +45,8 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.assertj:assertj-core:3.24.2'
+
 }
 
 test {
