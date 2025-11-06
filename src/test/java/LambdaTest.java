@@ -1,23 +1,30 @@
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Comparator;
+import java.util.function.Predicate;
+
+import static org.assertj.core.api.Assertions.*;
 
 public class LambdaTest{
+
+    class Apple{
+        private Double weight;
+
+        public Double getWeight() {
+            return weight;
+        }
+
+        public void setWeight(Double weight) {
+            this.weight = weight;
+        }
+    }
+
     @Test
     void simpleLambda(){
-
-        class Apple{
-            private Double weight;
-
-            public Double getWeight() {
-                return weight;
-            }
-
-            public void setWeight(Double weight) {
-                this.weight = weight;
-            }
-        }
 
         Apple x =  new Apple();
         x.setWeight(3.0);
@@ -35,8 +42,30 @@ public class LambdaTest{
 
         Comparator<Apple> byWeight = Comparator.comparing(Apple::getWeight);
 
-        Assertions.assertThat(byWeight.compare(x, y)).isEqualTo(-1);
+        assertThat(byWeight.compare(x, y)).isEqualTo(-1);
     }
+
+    public String processFile(BufferedReaderProcessor p) throws IOException{
+        try (BufferedReader br = new BufferedReader(new FileReader("src/main/resources/fruit.txt"))) {
+            return p.process(br);
+        }
+    }
+
+    @FunctionalInterface
+    public interface BufferedReaderProcessor{
+        String process(BufferedReader br) throws IOException;
+    }
+
+    @Test
+    void executeAroundPattern() throws IOException {
+        String oneLine = processFile((BufferedReader br) -> br.readLine());
+        String twoLine = processFile((BufferedReader br) -> br.readLine() + br.readLine());
+
+        assertThat(oneLine).contains("Apple");
+        assertThat(twoLine).contains("AppleBanana");
+    }
+
+
 }
 
 
