@@ -4,8 +4,12 @@ import org.junit.jupiter.api.Test;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
-import java.util.function.Predicate;
+import java.util.List;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -13,6 +17,14 @@ public class LambdaTest{
 
     class Apple{
         private Double weight;
+
+        public Apple(){
+
+        }
+
+        public Apple(Double weight){
+            this.weight = weight;
+        }
 
         public Double getWeight() {
             return weight;
@@ -63,6 +75,27 @@ public class LambdaTest{
 
         assertThat(oneLine).contains("Apple");
         assertThat(twoLine).contains("AppleBanana");
+    }
+
+    @Test
+    void referenceConstructor(){
+//        Supplier<Apple> c1 = () -> new Apple();
+        Supplier<Apple> c1 = Apple::new;
+//        Function<Double, Apple> c2 = (i) -> new Apple(i);
+        Function<Double, Apple> c2 = Apple::new;
+
+
+        List<Double> weights = Arrays.asList(7.0, 3.0, 4.0, 10.0);
+        List<Apple> apples = map(weights, Apple::new);
+
+    }
+
+    public List<Apple> map(List<Double> list, Function<Double, Apple> f){
+        List<Apple> result = new ArrayList<>();
+        for(Double i : list){
+            result.add(f.apply(i));
+        }
+        return result;
     }
 
 
